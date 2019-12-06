@@ -13,12 +13,12 @@ let gridMap;
 let newPosition; // y, x (row, column)
 let tileNumber;
 
-// TODO do a generation on DOM load
+// do a generation on DOM load
 document.addEventListener("DOMContentLoaded", () => {
   generatePage(settings);
 });
 
-// TODO genearte this stuff on submit listen
+// generate this stuff on submit listen
 formReload.addEventListener("submit", (event) => {
   event.preventDefault();
   settings.mode = document.querySelector('input[name="mode"]:checked').value;
@@ -28,6 +28,9 @@ formReload.addEventListener("submit", (event) => {
 function generatePage(settings) {
   while (gridContainer.firstChild) {
     gridContainer.removeChild(gridContainer.firstChild);
+  }
+  while (style.firstChild) {
+    style.removeChild(style.firstChild);
   }
   // "temp" value to simplify algorithm for creation of first row, something to compare against that will not match the index being used/checked
   gridMap = [
@@ -184,7 +187,8 @@ function constructTileWithImg(index) {
   if (id) {
     let columns = colEnd - colStart;
     let rows = rowEnd - rowStart;
-    fetch(`https://picsum.photos/${columns * 200}/${rows * 200}`)
+    // -2 on the pic size because the border on it's div container won't force the pic to be smaller via box-sizing border box
+    fetch(`https://picsum.photos/${columns * 200 - 2}/${rows * 200 - 2}`)
       .then((response) => {
         let imageUrl = response.url;
         gridContainer.innerHTML += tileComponentWithImgHTML(id, imageUrl);
@@ -232,6 +236,7 @@ function constructTileAttributes(id) {
   coords[0] = [...coords[0]];
   coords[1] = new Set(coords[1]);
   coords[1] = [...coords[1]];
+
   let cssAttributes = {
     id: null,
     rowStart: null,
@@ -275,10 +280,13 @@ function tileComponentCSS(id, rowStart, rowEnd, colStart, colEnd) {
     #tile-${id} {
       width: ${width * 200}px;
       height: ${height * 200}px;
+      border: 1px solid black;
       grid-row: ${rowStart} / ${rowEnd};
       grid-column: ${colStart} / ${colEnd};
       background: ${randomHexColor()};
-      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   `;
 
