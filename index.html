@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +8,39 @@
   <title>Grid Mage</title>
   <link rel="stylesheet" href="styles/style.css">
 </head>
+
 <body>
   <header>
     <h1>Grid Mage</h1>
     <h2>Procedurally generated grid tiles, just because.</h2>
+    <div id="credits">
+      By Lev <a href="https://twitter.com/DevLev3" target="_blank">Twitter</a> <a href="https://github.com/LevPewPew"
+        target="_blank">Github</a>
+    </div>
   </header>
 
   <div id="settings-container">
-    <form id="form-settings">
-      Mode:
-      <input type="radio" name="mode" value="color" checked="checked"> Color
-      <input type="radio" name="mode" value="image"> Image
+    <form>
+      <div class="settings">
+        <div class="setting">
+          <label>Mode:</label>
+          <div class="input">
+            <input id="rb-color" type="radio" name="mode" value="color" checked="checked">
+            <label for="rb-color">Color</label>
+          </div>
+          <div class="input">
+            <input id="rb-image" type="radio" name="mode" value="image">
+            <label for="rb-image">Image</label>
+          </div>
+        </div>
+      </div>
       <input id="btn-reload" type="submit">
     </form>
-    <div id="credits">
-      By Lev <a href="https://twitter.com/DevLev3" target="_blank">Twitter</a> <a href="https://github.com/LevPewPew" target="_blank">Github</a>
-    </div>
   </div>
 
   <div id="grid-container"></div>
 
   <script src="scripts/app.js"></script>
 </body>
+
 </html>

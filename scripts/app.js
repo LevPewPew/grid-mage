@@ -1,8 +1,8 @@
-const style = document.createElement('style');
-style.type = 'text/css';
-document.getElementsByTagName('head')[0].appendChild(style);
+const style = document.createElement("style");
+style.type = "text/css";
+document.getElementsByTagName("head")[0].appendChild(style);
 const gridContainer = document.getElementById("grid-container");
-const formReload = document.getElementById("form-settings");
+const formReload = document.getElementsByTagName("form")[0];
 
 // default configuration
 let settings = {
