@@ -3,6 +3,10 @@ style.type = "text/css";
 document.getElementsByTagName("head")[0].appendChild(style);
 const gridContainer = document.getElementById("grid-container");
 const formReload = document.getElementsByTagName("form")[0];
+const gridSizeSlideBar = document.getElementById("sb-width");
+// const lblDspValSbWidth = document.getElementsByClassName("dsp-val")
+const lblDspValSbWidth = document.querySelector('label[class="dsp-val"][for="sb-width"]');
+
 const SQUARES_PER_SCROLL = 50;
 let squareIndex = 0; // global counter to keep track of how much gridMap squares have been generated 
 
@@ -11,6 +15,8 @@ let settings = {
   mode: "color",
   gridSize: 4
   // TODO, settings to change pixel width of squares, so it is not hard coded to 200px
+  // TODO something else cosmetic that makes look cooler/different
+  // TODO something else that changes how the procedural algorithm will generate
 };
 
 let gridMap;
@@ -40,7 +46,9 @@ formReload.addEventListener("submit", (event) => {
   constructPage();
 });
 
-
+gridSizeSlideBar.addEventListener("input", (event) => {
+  lblDspValSbWidth.innerHTML = document.querySelector('input[name="grid-size"]').value;
+});
 
 function constructPage() {
   let gridSizeCSS = `

@@ -20,11 +20,9 @@ header {
     margin: 20px; }
 
 #grid-container {
-  width: 802px;
+  border: 1px solid black;
   margin: 0px auto;
-  display: grid;
-  grid-template-columns: 200px 200px 200px 200px;
-  border: 1px solid black; }
+  display: grid; }
 
 #settings-container {
   height: 200px;
@@ -37,12 +35,14 @@ header {
     #settings-container form .settings {
       display: flex; }
       #settings-container form .settings .setting {
+        margin: 10px;
         display: flex;
         flex-direction: column; }
     #settings-container form input[type="submit"] {
       width: 200px;
       padding: 10px 0px;
       border-radius: 5px;
+      margin: 10px;
       background: #d3fc62;
       outline: none;
       font-size: 24px;

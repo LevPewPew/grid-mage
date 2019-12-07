@@ -27,9 +27,9 @@ header {
 }
 
 #grid-container {
+  border: 1px solid black;
   margin: 0px auto;
   display: grid;
-  border: 1px solid black;
 }
 
 #settings-container {
@@ -46,6 +46,7 @@ header {
       display: flex;
 
       .setting {
+        margin: 10px;
         display: flex;
         flex-direction: column;
       }
@@ -55,6 +56,7 @@ header {
       width: 200px;
       padding: 10px 0px;
       border-radius: 5px;
+      margin: 10px;
       background: rgb(211, 252, 98);
       outline: none;
       font-size: 24px;
