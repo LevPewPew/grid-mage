@@ -8,7 +8,9 @@ let squareIndex = 0; // global counter to keep track of how much gridMap squares
 
 // default configuration
 let settings = {
-  mode: "color"
+  mode: "color",
+  gridSize: 4
+  // TODO, settings to change pixel width of squares, so it is not hard coded to 200px
 };
 
 let gridMap;
@@ -17,7 +19,7 @@ let tileNumber;
 
 // do a generation on DOM load
 document.addEventListener("DOMContentLoaded", () => {
-  constructPage(settings);
+  constructPage();
 });
 
 document.addEventListener("scroll", (event) => {
@@ -38,16 +40,29 @@ formReload.addEventListener("submit", (event) => {
 });
 
 function constructPage() {
+  let gridSizeCSS = `
+      #grid-container {
+        width: ${settings.gridSize * 200 + 2}px;
+        grid-template-columns: repeat(${settings.gridSize}, 200px);
+      }
+    `;
   while (gridContainer.firstChild) {
     gridContainer.removeChild(gridContainer.firstChild);
   }
   while (style.firstChild) {
     style.removeChild(style.firstChild);
   }
+  style.innerHTML += gridSizeCSS;
   // "temp" value to simplify algorithm for creation of first row, something to compare against that will not match the index being used/checked
+
+  let tempSquares = [];
+  for (let i = 0; i < settings.gridSize; i++) {
+    tempSquares.push("temp");
+  }
+  
   gridMap = [
-    ["temp", "temp", "temp", "temp"],
-    ["temp", "temp", "temp", "temp"]
+    tempSquares,
+    tempSquares
   ];
   newPosition = [2, 0]; // y, x (row, column)
   tileNumber = 0;
@@ -104,7 +119,7 @@ function generateGridPieceLocation() {
   }
 
   // update newPosition for next call of this function
-  if (newPosition[1] === 3) {
+  if (newPosition[1] === settings.gridSize - 1) {
     [newPosition[0], newPosition[1]] = [newPosition[0] + 1, 0];
   } else {
     [newPosition[0], newPosition[1]] = [newPosition[0], newPosition[1] + 1];
@@ -145,7 +160,7 @@ function allowWidth() {
   if (gridMap[newPosition[0]] && newPosition[0] > 1) {
     let square1Left = gridMap[newPosition[0]][newPosition[1] - 1];
     let square2Left = gridMap[newPosition[0]][newPosition[1] - 2];
-    let prevRowLastSquare = gridMap[newPosition[0] - 1][3]
+    let prevRowLastSquare = gridMap[newPosition[0] - 1][settings.gridSize - 1];
 
     // if the previous 2 squares, or the last square on the previous row, are the same as the current tile number, allow false to begin on next tile number
     if (square1Left === square2Left || prevRowLastSquare === tileNumber) {
@@ -314,3 +329,7 @@ function tileComponentCSS(id, rowStart, rowEnd, colStart, colEnd) {
 // TODO as part of the css scanning algorithm, somehow make the search shrink in size based on tiles or nubmers already saerched for or something like that, to prevent longer and longer searches as the page scrolls down.
 
 // TODO add event listener scrolling at bottom creates more
+
+// TODO remove all these TODO's and create a trello board
+
+// TODO seperate this script file into appropriate compartmentalised script files once i figure out how since it is a bit trickier in JS
