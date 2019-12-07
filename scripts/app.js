@@ -6,7 +6,7 @@ const formReload = document.getElementsByTagName("form")[0];
 const SQUARES_PER_SCROLL = 50;
 let squareIndex = 0; // global counter to keep track of how much gridMap squares have been generated 
 
-// default configuration
+// default configuration of settings
 let settings = {
   mode: "color",
   gridSize: 4
@@ -36,8 +36,11 @@ formReload.addEventListener("submit", (event) => {
   event.preventDefault();
   squareIndex = 0;
   settings.mode = document.querySelector('input[name="mode"]:checked').value;
+  settings.gridSize = document.querySelector('input[name="grid-size"]').value;
   constructPage();
 });
+
+
 
 function constructPage() {
   let gridSizeCSS = `
