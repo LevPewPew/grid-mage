@@ -3,6 +3,8 @@ style.type = "text/css";
 document.getElementsByTagName("head")[0].appendChild(style);
 const gridContainer = document.getElementById("grid-container");
 const formReload = document.getElementsByTagName("form")[0];
+const SQUARES_PER_SCROLL = 50;
+let squareIndex = 0; // global counter to keep track of how much gridMap squares have been generated 
 
 // default configuration
 let settings = {
@@ -15,17 +17,27 @@ let tileNumber;
 
 // do a generation on DOM load
 document.addEventListener("DOMContentLoaded", () => {
-  generatePage(settings);
+  constructPage(settings);
+});
+
+document.addEventListener("scroll", (event) => {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    // need to compensate for the new position being updated several extra times without the gridMap being updated, i don't know why that is doing this so this line is just a work around until that issue is found and fixed
+    [newPosition[0], newPosition[1]] = [newPosition[0] - 2, newPosition[1]];
+
+    spawnSetOfTiles();
+  }
 });
 
 // generate this stuff on submit listen
 formReload.addEventListener("submit", (event) => {
   event.preventDefault();
+  squareIndex = 0;
   settings.mode = document.querySelector('input[name="mode"]:checked').value;
-  generatePage(settings);
+  constructPage();
 });
 
-function generatePage(settings) {
+function constructPage() {
   while (gridContainer.firstChild) {
     gridContainer.removeChild(gridContainer.firstChild);
   }
@@ -40,12 +52,15 @@ function generatePage(settings) {
   newPosition = [2, 0]; // y, x (row, column)
   tileNumber = 0;
 
-  // grid on page load, keep i limit multiples of grid width to ensure a perfect rectangle
-  for (let i = 0; i < 250; i++) {
+  spawnSetOfTiles();
+}
+
+function spawnSetOfTiles() {
+  // grid on page load, keep i limit multiples of grid width to ensure gridMap is a perfect rectangle
+  for (let i = squareIndex; i < squareIndex + SQUARES_PER_SCROLL; i++) {
     generateGridPieceLocation();
   }
-  gridMap = gridMap.slice(2);
-  for (let i = 0; i < 250; i++) {
+  for (let i = squareIndex; i < squareIndex + SQUARES_PER_SCROLL; i++) {
     switch (settings.mode) {
       case "color":
         constructTile(i);
@@ -57,6 +72,7 @@ function generatePage(settings) {
         constructTile(i);
     }
   }
+  squareIndex += SQUARES_PER_SCROLL;
 }
 
 // TODO once it is working, i think it should be easy to modify to be able to dynamically define the width of the grid, and potentially even max dimensions of the tiles. if i can, i can put buttons onto the web page to allow the user to do that themselves, cool. make the buttons a little transparent console thing you can minimize and expand from an fixed position in corner
@@ -176,6 +192,7 @@ function forceRectangleContinue() {
   return force;
 }
 
+// TODO add a try catch to 
 function constructTileWithImg(index) {
   let {
     id,
@@ -197,6 +214,7 @@ function constructTileWithImg(index) {
         return response.json();
       })
       .catch((error) => {
+        // TODO add more error handling in here
         return error;
       });
   }
@@ -244,7 +262,7 @@ function constructTileAttributes(id) {
     colStart: null,
     colEnd: null
   }
-  if (typeof(coords[0][0]) === "number") {
+  if (typeof (coords[0][0]) === "number") {
     cssAttributes = {
       id: id,
       rowStart: coords[0][0] + 1,

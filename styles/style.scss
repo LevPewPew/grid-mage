@@ -52,5 +52,15 @@ header {
         flex-direction: column;
       }
     }
+
+    input[type="submit"] {
+      width: 200px;
+      padding: 10px 0px;
+      border-radius: 5px;
+      background: rgb(211, 252, 98);
+      outline: none;
+      font-size: 24px;
+      font-family: 'Tomorrow', sans-serif;
+    }
   }
 }

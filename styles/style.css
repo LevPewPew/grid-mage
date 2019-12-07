@@ -39,5 +39,13 @@ header {
       #settings-container form .settings .setting {
         display: flex;
         flex-direction: column; }
+    #settings-container form input[type="submit"] {
+      width: 200px;
+      padding: 10px 0px;
+      border-radius: 5px;
+      background: #d3fc62;
+      outline: none;
+      font-size: 24px;
+      font-family: 'Tomorrow', sans-serif; }
 
 /*# sourceMappingURL=style.css.map */
