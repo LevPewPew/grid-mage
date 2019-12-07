@@ -4,8 +4,9 @@ document.getElementsByTagName("head")[0].appendChild(style);
 const gridContainer = document.getElementById("grid-container");
 const formReload = document.getElementsByTagName("form")[0];
 const gridSizeSlideBar = document.getElementById("sb-width");
-// const lblDspValSbWidth = document.getElementsByClassName("dsp-val")
+const squareSizeSlideBar = document.getElementById("sb-sqsize");
 const lblDspValSbWidth = document.querySelector('label[class="dsp-val"][for="sb-width"]');
+const lblDspValSbSqsize = document.querySelector('label[class="dsp-val"][for="sb-sqsize"]');
 
 const SQUARES_PER_SCROLL = 50;
 let squareIndex = 0; // global counter to keep track of how much gridMap squares have been generated 
@@ -13,8 +14,8 @@ let squareIndex = 0; // global counter to keep track of how much gridMap squares
 // default configuration of settings
 let settings = {
   mode: "color",
-  gridSize: 4
-  // TODO, settings to change pixel width of squares, so it is not hard coded to 200px
+  gridSize: 4,
+  squareSize: 150
   // TODO something else cosmetic that makes look cooler/different
   // TODO something else that changes how the procedural algorithm will generate
 };
@@ -43,6 +44,7 @@ formReload.addEventListener("submit", (event) => {
   squareIndex = 0;
   settings.mode = document.querySelector('input[name="mode"]:checked').value;
   settings.gridSize = document.querySelector('input[name="grid-size"]').value;
+  settings.squareSize = document.querySelector('input[name="square-size"]').value;
   constructPage();
 });
 
@@ -50,11 +52,15 @@ gridSizeSlideBar.addEventListener("input", (event) => {
   lblDspValSbWidth.innerHTML = document.querySelector('input[name="grid-size"]').value;
 });
 
+squareSizeSlideBar.addEventListener("input", (event) => {
+  lblDspValSbSqsize.innerHTML = document.querySelector('input[name="square-size"]').value;
+});
+
 function constructPage() {
   let gridSizeCSS = `
       #grid-container {
-        width: ${settings.gridSize * 200 + 2}px;
-        grid-template-columns: repeat(${settings.gridSize}, 200px);
+        width: ${settings.gridSize * settings.squareSize + 2}px;
+        grid-template-columns: repeat(${settings.gridSize}, ${settings.squareSize}px);
       }
     `;
   while (gridContainer.firstChild) {
@@ -231,7 +237,7 @@ function constructTileWithImg(index) {
     let columns = colEnd - colStart;
     let rows = rowEnd - rowStart;
     // -2 on the pic size because the border on it's div container won't force the pic to be smaller via box-sizing border box
-    fetch(`https://picsum.photos/${columns * 200 - 2}/${rows * 200 - 2}`)
+    fetch(`https://picsum.photos/${columns * settings.squareSize - 2}/${rows * settings.squareSize - 2}`)
       .then((response) => {
         let imageUrl = response.url;
         gridContainer.innerHTML += tileComponentWithImgHTML(id, imageUrl);
@@ -322,8 +328,8 @@ function tileComponentCSS(id, rowStart, rowEnd, colStart, colEnd) {
   let height = rowEnd - rowStart;
   let css = `
     #tile-${id} {
-      width: ${width * 200}px;
-      height: ${height * 200}px;
+      width: ${width * settings.squareSize}px;
+      height: ${height * settings.squareSize}px;
       border: 1px solid black;
       grid-row: ${rowStart} / ${rowEnd};
       grid-column: ${colStart} / ${colEnd};

@@ -24,7 +24,7 @@
     <form>
       <div class="settings">
         <div class="setting">
-          <label>Mode:</label>
+          <label><strong>Mode:</strong></label>
           <div class="input">
             <input id="rb-color" type="radio" name="mode" value="color" checked="checked">
             <label for="rb-color">Color</label>
@@ -35,10 +35,17 @@
           </div>
         </div>
         <div class="setting">
-          <label for="sb-width">Width:</label>
+          <label for="sb-width"><strong>Grid Width:</strong></label>
           <div class="input">
             <input id="sb-width" name="grid-size" type="range" min="1" max="8" value="4">
             <label class="dsp-val" for="sb-width">4</label>
+          </div>
+        </div>
+        <div class="setting">
+          <label for="sb-sqsize"><strong>Square Width:</strong></label>
+          <div class="input">
+            <input id="sb-sqsize" name="square-size" type="range" min="100" max="200" value="150">
+            <label class="dsp-val" for="sb-sqsize">150</label>
           </div>
         </div>
       </div>
