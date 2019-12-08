@@ -16,8 +16,6 @@ let settings = {
   mode: "color",
   gridSize: 4,
   squareSize: 150
-  // TODO something else cosmetic that makes look cooler/different
-  // TODO something else that changes how the procedural algorithm will generate
 };
 
 let gridMap;
@@ -107,7 +105,6 @@ function spawnSetOfTiles() {
   squareIndex += SQUARES_PER_SCROLL;
 }
 
-// TODO once it is working, i think it should be easy to modify to be able to dynamically define the width of the grid, and potentially even max dimensions of the tiles. if i can, i can put buttons onto the web page to allow the user to do that themselves, cool. make the buttons a little transparent console thing you can minimize and expand from an fixed position in corner
 function generateGridPieceLocation() {
   // need to consider if new row doesn't exist yet, because cannot create new 2D co-ordinate/square in one go due to undefined error
   if (!gridMap[newPosition[0]]) {
@@ -171,7 +168,6 @@ function allowDepth() {
 }
 
 // function to help determine how many squares to the left of the newTile are already mapped to the tile index attempting to generate itself
-// TODO remake this later to allow for side pieces tht are 1x2
 function allowWidth() {
   let allow;
   if (gridMap[newPosition[0]] && newPosition[0] > 1) {
@@ -224,7 +220,6 @@ function forceRectangleContinue() {
   return force;
 }
 
-// TODO add a try catch to 
 function constructTileWithImg(index) {
   let {
     id,
@@ -246,7 +241,6 @@ function constructTileWithImg(index) {
         return response.json();
       })
       .catch((error) => {
-        // TODO add more error handling in here
         return error;
       });
   }
@@ -342,11 +336,3 @@ function tileComponentCSS(id, rowStart, rowEnd, colStart, colEnd) {
 
   return css;
 }
-
-// TODO as part of the css scanning algorithm, somehow make the search shrink in size based on tiles or nubmers already saerched for or something like that, to prevent longer and longer searches as the page scrolls down.
-
-// TODO add event listener scrolling at bottom creates more
-
-// TODO remove all these TODO's and create a trello board
-
-// TODO seperate this script file into appropriate compartmentalised script files once i figure out how since it is a bit trickier in JS
